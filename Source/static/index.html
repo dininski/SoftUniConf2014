@@ -25,7 +25,7 @@
         var name = $('<span></span>').addClass('name').text(msgObj.name);
         var message = $('<span></span>').addClass('message').text(msgObj.message);
         newMessageElement.append(name).append(message);
-        chatbox.append(newMessageElement);
+        chatbox.prepend(newMessageElement);
     };
 
     var nameInput = $('#nameInput');
