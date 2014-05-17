@@ -1,0 +1,9 @@
+.name {
+    font-weight: bold;
+    font-size: 16px;
+    padding-right: 10px;
+}
+
+.message {
+    font-size: 13px;
+}

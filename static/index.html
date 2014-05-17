@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple chat</title>
+    <script src="scripts/jquery-2.1.1.min.js"> </script>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+<input id="nameInput" placeholder="Name">
+</input>
+<input id="messageInput" placeholder="Your message">
+</input>
+<button id="sendButton">Send</button>
+<div id="chatbox">
+</div>
+<script>
+    var messageInput = $('#messageInput');
+    var chatbox = $('#chatbox');
+
+    var host = window.location.host;
+    var ws = new WebSocket('ws://' + host);
+    ws.onmessage = function(msg) {
+        var msgObj = JSON.parse(msg.data);
+        var newMessageElement = $('<div></div>');
+        var name = $('<span></span>').addClass('name').text(msgObj.name);
+        var message = $('<span></span>').addClass('message').text(msgObj.message);
+        newMessageElement.append(name).append(message);
+        chatbox.append(newMessageElement);
+    };
+
+    var nameInput = $('#nameInput');
+    var sendButton = $('#sendButton');
+    sendButton.on('click', function(ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        var message = messageInput.val();
+
+        if(!message) {
+            alert('Please enter a message!');
+        } else {
+            var transferObject = {};
+            transferObject.name = nameInput.val() || "Anonymous";
+            transferObject.message = messageInput.val();
+            ws.send(JSON.stringify(transferObject));
+        };
+    });
+</script>
+</body>
+</html>
